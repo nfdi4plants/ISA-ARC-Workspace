@@ -1,13 +1,20 @@
-# Annotated Research Contexts specification
+# ISA-ARC Workspace
 
-[![DOI](https://zenodo.org/badge/380251011.svg)](https://zenodo.org/badge/latestdoi/380251011)
+Specification for ARC Workspaces with ISA and CWL flavours.
 
-Annotated Research Contexts (ARCs) are designed to represent FAIR Digital Objects (FDOs) for plant sciences to facilitate encompassing Research Data Management (RDM) tasks.
+## Overview
 
-The [ARC-specification](ARC%20specification.md) provides a detailed description of the technical requirements to form the basis for the operational characteristics.
+The ISA-ARC Workspace facilitates iterative RDM by providing a folder structure and metadata file specifications for managing experimental and computational provenance.
 
-Please provide feedback via GitHub issues. For small extensions or fixes please use pull requests.
-If you have novel conceptual ideas, please discuss them with the community under [discussion](https://github.com/nfdi4plants/ARC-specfication/discussions).
+Experimental metadata is organized in [ISA-XLSX] format, an implementation of the ISA abstract model 
+
+Computational metadata is organized in a combination of workflows and runs defined by CWL (Common Workflow Language) and associated metadata files in [WR-XLSX](), an extension of the ISA abstract model for capturing computational provenance.
+
+Specifications in this repo:
+- [ISA ARC Workspace description (human readable overview)]()
+- [ISA-ARC Workspace definition (machine readable specification of the folder structure)]()
+- [ISA-XLSX specification]()
+- [WR-XLSX specification]()
 
 ## Contributing to this repository
 

@@ -1052,7 +1052,6 @@ A `Parameter` can be used to specify any additional information about the experi
 > [!NOTE]
 > In this example, the value in the `Term Accession Number` column is formatted as a `URL`, but shortened for the purpose of markdown-formatting.
 
-
 ## Comments
 
 A `Comment` can be used to provide some additional information. Columns headed with `Comment[<comment name>]` MAY appear anywhere in the Annotation Table. The comment always refers to the Annotation Table. The value MUST be free text.
