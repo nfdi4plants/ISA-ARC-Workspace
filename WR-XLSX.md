@@ -1,10 +1,8 @@
 # WR-XLSX format, version 1.0.0-draft.1
 
-For detail on ISA framework terminology, please read the [ISA Abstract Model specification](https://isa-specs.readthedocs.io/en/latest/isamodel.html).
+This specification extends [ISA-XLSX, version 3.0.0-draft.1](./ISA-XLSX.md) with metadata for computational workflows and runs. The XLSX representation and ISA terminology are defined by that base specification.
 
-This document describes the workflow and run extensions of the ISA Abstract Model reference implementation specified in the ISA-XLSX format. The XLSX format uses the SpreadsheetML markup language and schema to represent a spreadsheet document. Conceptually, using the terminology of the Spreadsheet ML specification [ISO/IEC 29500-1](https://www.loc.gov/preservation/digital/formats/fdd/fdd000398.shtml#:~:text=The%20XLSX%20format%20uses%20the,a%20rectangular%20grid%20of%20cells.), the document comprises one or more worksheets in a workbook.
-
-This specification is an extension of [ISA-XLSX](./ISA-XLSX.md) and reuses its concepts, structures, terminology, and conventions for representing metadata in XLSX format.
+WR-XLSX files MUST conform to the [general conventions](./ISA-XLSX.md#general-conventions) and the shared sheet rules referenced below, except where this specification explicitly extends them. Those rules retain their stated MUST, SHOULD, and MAY requirements. This specification defines the additional file names, worksheet names, sections, and fields for workflows and runs.
 
 **Table of contents**
 
@@ -22,29 +20,10 @@ WR-XLSX extends the ISA-XLSX format by introducing additional files and sheets t
   - Run file
   - Workflow file
 
-The Investigation file contains all the information needed to understand the overall goals and means used in an experiment; experimental steps (or sequences of events) are described in the Study and in the Assay file(s). For each Investigation file there may be one or more Studies defined with a corresponding Study file; for each Study there may be one or more Assays defined with corresponding Assay files; one assay file may be registered in different studies.
-
-In order to facilitate identification of ISA-XLSX component files, specific naming patterns MUST be followed:
+In order to facilitate identification of WR-XLSX component files, specific naming patterns MUST be followed:
 
 - `isa.workflow.xlsx` for identifying the [Workflow file](#workflow-file)
 - `isa.run.xlsx` for identifying the [Run file](#run-file)
-
-Sheets described in this specification MUST follow one of the two given formats:
-
-- [`Top-level metadata sheets`](#top-level-metadata-sheets) for listing top-level metadata
-- [`Annotation Table sheets`](#annotation-table-sheets) for describing experimental workflows
-
-Sheets which do not follow any of these two formats are considered additional payload and are ignored in this specification.
-
-All labels are case-sensitive:
-
-Dates SHOULD be supplied in the [ISO8601](http://www.iso.org/iso/home/standards/iso8601.htm) format.
-
-For maximal portability file names SHOULD contain only ASCII characters not excluded
-already (that is `A-Za-z0-9._!#$%&+,;=@^(){}'[]` - we exclude space as many utilities
-do not accept spaces in file paths): non-English alphabetic characters cannot be guaranteed
-to be supported in all locales. It is recommended to avoid the shell metacharacters
-`(){}'[]$."`.
 
 # Workflow File
 
@@ -71,23 +50,13 @@ Therefore, the main entities of the `Run File` should be `Data`.
 
 # Top-level metadata sheets
 
-The purpose of top-level metadata sheets is aggregating and listing top-level metadata. Each sheet consists of sections consisting of a section header and key-value fields. Section headers MUST be completely written in upper case (e.g. STUDY), field headers MUST have the first letter of each word in upper case (e.g. Study Identifier); with the exception of the referencing label (REF).
+Workflow and Run metadata sheets MUST follow the [Top-level metadata sheets](./ISA-XLSX.md#top-level-metadata-sheets) rules in ISA-XLSX, including section and field layout, capitalization, and comment handling. The following sections define the WR-specific metadata fields.
 
-In the following sections, examples of each section block are given beside the specification of each section.
-
-> ### ATTENTION
-> Rows in which the first character in the first column is Unicode
-> [U+0023](http://www.fileformat.info/info/unicode/char/0023/index.htm)  (the `#` character) > MUST be interpreted as
-> comments, where reference implementation parsers SHOULD ignore those lines entirely.
-
-> Rows where the label `Comment[<comment name>]` appear can also appear within any of the > section blocks. Where these appear, the comment name must be unique within the context of a single block (e.g. you cannot have multiple occurrences of `Comment[external DB REF]` within `STUDY ASSAYS`. Also, the value cells MUST match the number of values indicated by the rest of the section in context.
+Within an Investigation, workflow and run metadata use the ontology source declarations in that Investigation's [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). The `Term Source REF` fields below refer to those declarations.
 
 ## WORKFLOW section
 
-This section is organized in several subsections, described in detail below. The subsections in the block are arranged vertically; the intent being to enhance readability and presentation, and possibly to help with parsing. These subsections MUST remain within
-this block; the fields MUST remain within their subsection.
-
-These sections implement the metadata for a `Workflow`.
+The following subsections implement the metadata for a `Workflow`.
 
 ### WORKFLOW
 
@@ -104,16 +73,16 @@ This section MUST contain the following labels, with the specified datatypes for
 | Workflow Subworkflow Identifiers | String | Identifiers of the Workflows who're orchestrated in the context of this workflow. Multiple values can be provided by using a semicolon (“;”) Unicode (U0003+B) as a separator (e.g.: Imputation;Testing;Plotting). |
 | Workflow Type                                  | String     | Term to classify the workflow. The term can be free text or from, for example, a controlled vocabulary or an ontology. If the latter source is used the Term Accession Number and Term Source REF fields below are required. |
 | Workflow Type Term Accession Number            | String     | The accession number from the Term Source associated with the selected term. |
-| Workflow Type Term Source REF                  | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Name declared in the Ontology Source Reference section. |
+| Workflow Type Term Source REF                  | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Name declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). |
 | Workflow URI                                   | String     | Pointer to workflow resources external to the ISA-Tab that can be accessed by their Uniform Resource Identifier (URI). |
 | Workflow Version                               | String     | An identifier for the version to ensure workflow tracking. |
-| Workflow Parameters Name                       | String     | A semicolon-delimited (“;”) list of parameter names, used as an identifier within the ISA-XLSX document. These names are used in [Run Annotation Tables](#annotation-table-sheets) to list the values used for each Workflow parameter. Refer to section [Multiple values](#multiple-values) on how to encode multiple values in one field and match term sources. |
+| Workflow Parameters Name                       | String     | A semicolon-delimited (“;”) list of parameter names, used as an identifier within the WR-XLSX document. These names identify the [Parameter columns](./ISA-XLSX.md#parameters) in [Run Annotation Tables](#annotation-table-sheets) that list the values used for each Workflow parameter. Refer to section [Multiple values](#multiple-values) on how to encode multiple values in one field and match term sources. |
 | Workflow Parameters Term Accession Number      | String     | The accession number from the Term Source associated with the selected term. |
-| Workflow Parameters Term Source REF            | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Name declared in the Ontology Source Reference section. |
+| Workflow Parameters Term Source REF            | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Name declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). |
 | Workflow Components Name                       | String     | A semicolon-delimited (“;”) list of a workflow’s components; e.g. software names. Refer to section [Multiple values](#multiple-values) on how to encode multiple values in one field and match term sources. |
 | Workflow Components Type                       | String     | Term to classify the workflow components listed, e.g command line tool or software. The term can be free text or from, for example, a controlled vocabulary or an ontology. If the latter source is used the Term Accession Number and Term Source REF fields below are required. |
 | Workflow Components Type Term Accession Number | String     | The accession number from the Source associated to the selected terms. |
-| Workflow Components Type Term Source REF       | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match a Term Source Name previously declared in the ontology section |
+| Workflow Components Type Term Source REF       | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match a Term Source Name previously declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section) |
 | Workflow File Name           | String     | A field to specify the name of the Workflow Table file corresponding the definition of that workflow. There can be only one file per cell. |
 
 
@@ -161,7 +130,7 @@ This section MUST contain the following labels, with the specified datatypes for
 | Workflow Person Affiliation | String | The organization affiliation for a person associated with the workflow. |
 | Workflow Person Roles | String or Ontology Annotation if accompanied by Term Accession Numbers and Term Source REFs | Term to classify the role(s) performed by this person in the context of the workflow, which means that the roles reported here need not correspond to roles held withing their affiliated organization. Multiple annotations or values attached to one person can be provided by using a semicolon (“;”) Unicode (U0003+B) as a separator (e.g.: submitter;funder;sponsor) .The term can be free text or from, for example, a controlled vocabulary or an ontology. If the latter source is used the Term Accession Number and Term Source REF fields below are required. Refer to section [Multiple values](#multiple-values) on how to encode multiple values in one field and match term sources. |
 | Workflow Person Roles Term Accession Number | String | The accession number from the Term Source associated with the selected term. |
-| Workflow Person Roles Term Source REF | String | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Names declared in the Ontology Source Reference section. |
+| Workflow Person Roles Term Source REF | String | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Names declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). |
 
 **Example**
 
@@ -185,10 +154,7 @@ For example, the `WORKFLOW CONTACTS` section of an ISA-XLSX `isa.workflow.xlsx` 
 
 ## RUN section
 
-This section is organized in several subsections, described in detail below. The subsections in the block are arranged vertically; the intent being to enhance readability and presentation, and possibly to help with parsing. These subsections MUST remain within
-this block; the fields MUST remain within their subsection.
-
-These sections implement the metadata for a `Run`.
+The following subsections implement the metadata for a `Run`.
 
 ### RUN
 
@@ -205,10 +171,10 @@ This section MUST contain the following labels, with the specified datatypes for
 | Run Workflow Identifiers | String | Identifiers of the Workflows whose execution was orchestrated in the context of this run. Multiple values can be provided by using a semicolon (“;”) Unicode (U0003+B) as a separator (e.g.: Imputation;Testing;Plotting). |
 | Run Measurement Type    | String     | A term to qualify the endpoint, or what is being computed (e.g. gene expression profiling or protein identification). The term can be free text or from, for example, a controlled vocabulary or an ontology. If the latter source is used the Term Accession Number and Term Source REF fields below are required. |
 | Run Measurement Type Term Accession Number | String     | The accession number from the Term Source associated with the selected term.  |
-| Run Measurement Type Term Source REF       | String     | The Source REF has to match one of the Term Source Name declared in the Ontology Source Reference section. |
+| Run Measurement Type Term Source REF       | String     | The Source REF has to match one of the Term Source Name declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). |
 | Run Technology Type     | String | Term to identify the technology used to perform the computation, e.g. statistical testing. The term can be free text or from, for example, a controlled vocabulary or an ontology. If the latter source is used the Term Accession Number and Term Source REF fields below are required. |
 | Run Technology Type Term Accession Number  | String     | The accession number from the Term Source associated with the selected term.  |
-| Run Technology Type Term Source REF        | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Names declared in the Ontology Source Reference. |
+| Run Technology Type Term Source REF        | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Names declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). |
 | Run Technology Platform | String     | Software Publisher/Creator and/or Software name used for the computation. |
 | Run File Name           | String     | A field to specify the name of the Run Table file corresponding the definition of that run. There can be only one file per cell. |
 
@@ -251,7 +217,7 @@ This section MUST contain the following labels, with the specified datatypes for
 | Run Person Affiliation | String | The organization affiliation for a person associated with the run. |
 | Run Person Roles | String or Ontology Annotation if accompanied by Term Accession Numbers and Term Source REFs | Term to classify the role(s) performed by this person in the context of the run, which means that the roles reported here need not correspond to roles held withing their affiliated organization. Multiple annotations or values attached to one person can be provided by using a semicolon (“;”) Unicode (U0003+B) as a separator (e.g.: submitter;funder;sponsor) .The term can be free text or from, for example, a controlled vocabulary or an ontology. If the latter source is used the Term Accession Number and Term Source REF fields below are required. Refer to section [Multiple values](#multiple-values) on how to encode multiple values in one field and match term sources.|
 | Run Person Roles Term Accession Number | String | The accession number from the Term Source associated with the selected term. |
-| Run Person Roles Term Source REF | String | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Names declared in the Ontology Source Reference section. |
+| Run Person Roles Term Source REF | String | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Names declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). |
 
 **Example**
 
@@ -274,11 +240,11 @@ For example, the `RUN PERFORMERS` section of an ISA-XLSX `isa.run.xlsx` file may
 
 ## Multiple values
 
-Refer to the [Multiple values](./ISA-XLSX.md#multiple-values) section of the ISA-XLSX specification for guidance on handling cells with multiple annotation values.
+Where a top-level metadata field permits multiple annotation values, their encoding MUST follow the [Multiple values](./ISA-XLSX.md#multiple-values) rules in ISA-XLSX.
 
 # Annotation Table sheets
 
-Refer to the [Annotation Table sheets](./ISA-XLSX.md#annotation-table-sheets) section of the ISA-XLSX specification for guidance on structuring and using annotation tables.
+Run annotation tables MUST follow the [Annotation Table sheets](./ISA-XLSX.md#annotation-table-sheets) rules in ISA-XLSX. These include table structure, [inputs and outputs](./ISA-XLSX.md#inputs-and-outputs), [protocol columns](./ISA-XLSX.md#protocol-columns), [ontology annotations](./ISA-XLSX.md#ontology-annotations), [units](./ISA-XLSX.md#unit), [parameters](./ISA-XLSX.md#parameters), [comments](./ISA-XLSX.md#comments), and [additional payload](./ISA-XLSX.md#others).
 
 ## Examples
 
@@ -286,4 +252,4 @@ todo
 
 # Datamap Table sheets
 
-reference back
+Data entities used or produced by workflows and runs MAY be described in a [Datamap File](./ISA-XLSX.md#datamap-file). These files and their [Datamap Table sheets](./ISA-XLSX.md#datamap-table-sheets) MUST follow the ISA-XLSX rules.

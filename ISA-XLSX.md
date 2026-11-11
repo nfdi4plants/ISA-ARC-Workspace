@@ -6,6 +6,7 @@ This document describes the ISA Abstract Model reference implementation specifie
 
 **Table of contents**
 
+- [General conventions](#general-conventions)
 - [Investigation File](#investigation-file)
 - [Study File](#study-file)
 - [Assay File](#assay-file)
@@ -54,12 +55,15 @@ In order to facilitate identification of ISA-XLSX component files, specific nami
 - `isa.study.xlsx` for identifying [Study file(s)](#study-file)
 - `isa.assay.xlsx` for identifying [Assay file(s)](#assay-file)
 
-Sheets described in this specification MUST follow one of the two given formats:
+# General conventions
+
+Sheets described in this specification MUST follow one of the following formats:
 
 - [`Top-level metadata sheets`](#top-level-metadata-sheets) for listing top-level metadata
 - [`Annotation Table sheets`](#annotation-table-sheets) for describing experimental workflows
+- [`Datamap Table sheets`](#datamap-table-sheets) for describing data entities
 
-Sheets which do not follow any of these two formats are considered additional payload and are ignored in this specification.
+Sheets which do not follow any of these formats are considered additional payload and are ignored in this specification.
 
 All labels are case-sensitive:
 
@@ -139,7 +143,7 @@ The `Assay File` implements the [`Assay`](https://isa-specs.readthedocs.io/en/la
 
 # Datamap File
 
-The `Datamap` represents a set of explanations about the `data` entities defined in `assays` and `studies`.
+The `Datamap` represents a set of explanations about `data` entities described using ISA-XLSX or its extensions.
 
 The `Datamap File` MUST contain at least one [`Datamap table sheet`](#datamap-table-sheets). The names of these worksheets SHOULD reflect the data entities they describe.
 
@@ -150,6 +154,8 @@ The `Datamap File` acts as an extension of the `data` nodes defined in the [`Stu
 # Top-level metadata sheets
 
 The purpose of top-level metadata sheets is aggregating and listing top-level metadata. Each sheet consists of sections consisting of a section header and key-value fields. Section headers MUST be completely written in upper case (e.g. STUDY), field headers MUST have the first letter of each word in upper case (e.g. Study Identifier); with the exception of the referencing label (REF).
+
+Sections organized in subsections form a block. The subsections are arranged vertically and MUST remain within their block; the fields MUST remain within their subsection.
 
 In the following sections, examples of each section block are given beside the specification of each section.
 
@@ -309,9 +315,7 @@ For example, the `INVESTIGATION CONTACTS` section of an ISA-XLSX `isa.investigat
 
 This section is organized in several subsections, described in detail below. This section also represents a
 **repeatable block**, which is replicated according to the number of Studies to report (i.e. two Studies, two Study
-blocks are represented in the Investigation file). The subsections in the block are arranged vertically; the intent
-being to enhance readability and presentation, and possibly to help with parsing. These subsections MUST remain within
-this repeatable block, although their order MAY vary; the fields MUST remain within their subsection.
+blocks are represented in the Investigation file). The order of subsections within each block MAY vary.
 
 These sections implement the metadata for a `Study` from the ISA Abstract Model and a list of `Assay` (i.e. `Study` and
 `Assay` **without** graphs; graphs are implemented in ISA-XLSX as `Annotation Table sheets`).
@@ -555,8 +559,7 @@ For example, the `STUDY CONTACTS` section of an ISA-XLSX `isa.investigation.xlsx
 
 ## ASSAY section
 
-This section is organized in several subsections, described in detail below. The subsections in the block are arranged vertically; the intent being to enhance readability and presentation, and possibly to help with parsing. These subsections MUST remain within
-this block; the fields MUST remain within their subsection.
+This section is organized in several subsections, described in detail below.
 
 These sections implement the metadata for an `Assay` from the ISA Abstract Model.
 
@@ -697,7 +700,7 @@ Cell values of the `Input` and `Output` column represent nodes of the `Process` 
 
 `Source Names`, `Sample Names`, `Material Names` MUST be unique across an ARC. If two of these entities with the same name exist in the same ARC, they are considered the same entity.
 
-The `Data` node type MUST correspond to a relevant data resource location, following the [Data Path Annotation](/ARC%20specification.md#data-path-annotation) patterns. If the annotation of the `Data` node refers not to the complete resource, but a part of it, a `Selector` MAY be added. This Selector MUST be separated from the resource location using a `#`— with no whitespace between: `location#selector`. If appropriate, the Selector SHOULD be formatted according to IRI fragment selectors specified by [W3](https://www.w3.org/TR/annotation-model/#fragment-selector).
+The `Data` node type MUST correspond to a relevant data resource location, following the [Data Path Annotation](./ISA-ARC-Workspace.md#data-path-annotation) patterns. If the annotation of the `Data` node refers not to the complete resource, but a part of it, a `Selector` MAY be added. This Selector MUST be separated from the resource location using a `#`— with no whitespace between: `location#selector`. If appropriate, the Selector SHOULD be formatted according to IRI fragment selectors specified by [W3](https://www.w3.org/TR/annotation-model/#fragment-selector).
 
 The format of the data resource MAY be further qualified using a `Data Format` column. The `Data Format` SHOULD be expressed using a [MIME format](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types), most commonly consisting of two parts: a type and a subtype, separated by a slash (/) — with no whitespace between: `type/subtype`. If appropriate, a format from the list composed by [IANA](https://www.iana.org/assignments/media-types/media-types.xhtml)
 SHOULD be picked. Unregistered or niche encoding and file formats MAY be indicated instead via the most appropriate URL.
@@ -885,7 +888,7 @@ The content of the datamap table MUST be placed in an `xlsx table` whose name st
 
 ## Data column
 
-Every `Datamap Table sheet` MUST contain a `Data` column. Every  object in this column MUST correspond to a relevant data resource location, following the [Data Path Annotation](/ARC%20specification.md#data-path-annotation) patterns. If the annotation of the `Data` node refers not to the complete resource, but a part of it, a `Selector` MAY be added. This Selector MUST be separated from the resource location using a `#`— with no whitespace between: `location#selector`. If appropriate, the Selector SHOULD be formatted according to IRI fragment selectors specified by [W3](https://www.w3.org/TR/annotation-model/#fragment-selector).
+Every `Datamap Table sheet` MUST contain a `Data` column. Every  object in this column MUST correspond to a relevant data resource location, following the [Data Path Annotation](./ISA-ARC-Workspace.md#data-path-annotation) patterns. If the annotation of the `Data` node refers not to the complete resource, but a part of it, a `Selector` MAY be added. This Selector MUST be separated from the resource location using a `#`— with no whitespace between: `location#selector`. If appropriate, the Selector SHOULD be formatted according to IRI fragment selectors specified by [W3](https://www.w3.org/TR/annotation-model/#fragment-selector).
 
 The format of the data resource MAY be further qualified using a `Data Format` column. The `Data Format` SHOULD be expressed using a [MIME format](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types), most commonly consisting of two parts: a type and a subtype, separated by a slash (/) — with no whitespace between: `type/subtype`. If appropriate, a format from the list composed by [IANA](https://www.iana.org/assignments/media-types/media-types.xhtml)
 SHOULD be picked. Unregistered or niche encoding and file formats MAY be indicated instead via the most appropriate URL.
@@ -945,7 +948,7 @@ Every `Datamap Table sheet` SHOULD contain a `Description` column. The `Descript
 
 Every `Datamap Table sheet` SHOULD contain a `Generated By` column. The `Generated By` names the tool which led to the creation of the data node. The value MUST be free text.
 
-If possible, the value in this column MUST correspond to a relevant data resource location, following the [Data Path Annotation](/ARC%20specification.md#data-path-annotation) patterns.
+If possible, the value in this column MUST correspond to a relevant data resource location, following the [Data Path Annotation](./ISA-ARC-Workspace.md#data-path-annotation) patterns.
 
 | Generated By | 
 |------------------------|
