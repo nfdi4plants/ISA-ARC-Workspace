@@ -1,8 +1,14 @@
 # ISA-XLSX format, version 3.0.0-draft.1
 
+**Status:** Draft.
+
+**Persistent identifier:** <https://w3id.org/arc/workspace/isa-arc/isa-xlsx>
+
 For detail on ISA framework terminology, please read the [ISA Abstract Model specification](https://isa-specs.readthedocs.io/en/latest/isamodel.html).
 
 This document describes the ISA Abstract Model reference implementation specified in the ISA-XLSX format. The XLSX format uses the SpreadsheetML markup language and schema to represent a spreadsheet document. Conceptually, using the terminology of the Spreadsheet ML specification [ISO/IEC 29500-1](https://www.loc.gov/preservation/digital/formats/fdd/fdd000398.shtml#:~:text=The%20XLSX%20format%20uses%20the,a%20rectangular%20grid%20of%20cells.), the document comprises one or more worksheets in a workbook.
+
+Workflow and run metadata are specified by the [WR-XLSX extension, version 1.0.0-draft.1](./WR-XLSX.md). The workspace layout and data-path conventions referenced here are defined by the [ISA-ARC Workspace specification, version 3.0.0-draft.2](./ISA-ARC-Workspace.md).
 
 **Table of contents**
 
@@ -57,13 +63,12 @@ In order to facilitate identification of ISA-XLSX component files, specific nami
 
 # General conventions
 
-Sheets described in this specification MUST follow one of the following formats:
+Sheets described in this specification MUST follow one of the two given formats:
 
 - [`Top-level metadata sheets`](#top-level-metadata-sheets) for listing top-level metadata
 - [`Annotation Table sheets`](#annotation-table-sheets) for describing experimental workflows
-- [`Datamap Table sheets`](#datamap-table-sheets) for describing data entities
 
-Sheets which do not follow any of these formats are considered additional payload and are ignored in this specification.
+Sheets which do not follow any of these two formats are considered additional payload and are ignored in this specification.
 
 All labels are case-sensitive:
 
@@ -143,7 +148,7 @@ The `Assay File` implements the [`Assay`](https://isa-specs.readthedocs.io/en/la
 
 # Datamap File
 
-The `Datamap` represents a set of explanations about `data` entities described using ISA-XLSX or its extensions.
+The `Datamap` represents a set of explanations about the `data` entities defined in `assays` and `studies`.
 
 The `Datamap File` MUST contain at least one [`Datamap table sheet`](#datamap-table-sheets). The names of these worksheets SHOULD reflect the data entities they describe.
 
@@ -155,7 +160,7 @@ The `Datamap File` acts as an extension of the `data` nodes defined in the [`Stu
 
 The purpose of top-level metadata sheets is aggregating and listing top-level metadata. Each sheet consists of sections consisting of a section header and key-value fields. Section headers MUST be completely written in upper case (e.g. STUDY), field headers MUST have the first letter of each word in upper case (e.g. Study Identifier); with the exception of the referencing label (REF).
 
-Sections organized in subsections form a block. The subsections are arranged vertically and MUST remain within their block; the fields MUST remain within their subsection.
+For sections explicitly defined as metadata blocks, the subsections are arranged vertically and MUST remain within their block; the fields MUST remain within their subsection.
 
 In the following sections, examples of each section block are given beside the specification of each section.
 
@@ -485,7 +490,7 @@ This section MUST contain the following labels, with the specified datatypes for
 | Study Protocol Type Term Accession Number            | String     | The accession number from the Term Source associated with the selected term. |
 | Study Protocol Type Term Source REF                  | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Name declared in the Ontology Source Reference section. |
 | Study Protocol Description                           | String     | A free-text description of the protocol. |
-| Study Protocol URI                                   | String     | Pointer to protocol resources external to the ISA-Tab that can be accessed by their Uniform Resource Identifier (URI). |
+| Study Protocol URI                                   | String     | Pointer to protocol resources external to the ISA-XLSX document that can be accessed by their Uniform Resource Identifier (URI). |
 | Study Protocol Version                               | String     | An identifier for the version to ensure protocol tracking. |
 | Study Protocol Parameters Name                       | String     | A semicolon-delimited (“;”) list of parameter names, used as an identifier within the ISA-XLSX document. These names are used in the Study and Assay files (in the “Parameter Value []” column heading) to list the values used for each protocol parameter. Refer to section [Multiple values](#multiple-values) on how to encode multiple values in one field and match term sources. |
 | Study Protocol Parameters Term Accession Number      | String     | The accession number from the Term Source associated with the selected term. |
@@ -559,7 +564,7 @@ For example, the `STUDY CONTACTS` section of an ISA-XLSX `isa.investigation.xlsx
 
 ## ASSAY section
 
-This section is organized in several subsections, described in detail below.
+This section is a metadata block organized in several subsections, described in detail below.
 
 These sections implement the metadata for an `Assay` from the ISA Abstract Model.
 
