@@ -1,6 +1,12 @@
 # WR-XLSX format, version 1.0.0-draft.1
 
+**Status:** Draft.
+
+**Persistent identifier:** <https://w3id.org/arc/workspace/isa-arc/wr-xlsx>
+
 This specification extends [ISA-XLSX, version 3.0.0-draft.1](./ISA-XLSX.md) with metadata for computational workflows and runs. The XLSX representation and ISA terminology are defined by that base specification.
+
+The existing folder layout and data-path conventions are defined by the [ISA-ARC Workspace specification, version 3.0.0-draft.2](./ISA-ARC-Workspace.md). Separating these specifications does not change those workspace requirements.
 
 WR-XLSX files MUST conform to the [general conventions](./ISA-XLSX.md#general-conventions) and the shared sheet rules referenced below, except where this specification explicitly extends them. Those rules retain their stated MUST, SHOULD, and MAY requirements. This specification defines the additional file names, worksheet names, sections, and fields for workflows and runs.
 
@@ -13,14 +19,13 @@ WR-XLSX files MUST conform to the [general conventions](./ISA-XLSX.md#general-co
   - [RUN section](#run-section)
   - [Multiple Values](#multiple-values)
 - [Annotation Table sheets](#annotation-table-sheets)
-  - [Examples](#examples)
 - [Datamap Table sheets](#datamap-table-sheets)
 
 WR-XLSX extends the ISA-XLSX format by introducing additional files and sheets to capture computational workflows and runs. Specifically, it defines:
   - Run file
   - Workflow file
 
-In order to facilitate identification of WR-XLSX component files, specific naming patterns MUST be followed:
+The workspace's [Workflow Description](./ISA-ARC-Workspace.md#workflow-description) and [Run Description](./ISA-ARC-Workspace.md#run-description) identify WR-XLSX metadata files by the following names:
 
 - `isa.workflow.xlsx` for identifying the [Workflow file](#workflow-file)
 - `isa.run.xlsx` for identifying the [Run file](#run-file)
@@ -56,7 +61,7 @@ Within an Investigation, workflow and run metadata use the ontology source decla
 
 ## WORKFLOW section
 
-The following subsections implement the metadata for a `Workflow`.
+The following subsections form a metadata block implementing the metadata for a `Workflow`.
 
 ### WORKFLOW
 
@@ -74,7 +79,7 @@ This section MUST contain the following labels, with the specified datatypes for
 | Workflow Type                                  | String     | Term to classify the workflow. The term can be free text or from, for example, a controlled vocabulary or an ontology. If the latter source is used the Term Accession Number and Term Source REF fields below are required. |
 | Workflow Type Term Accession Number            | String     | The accession number from the Term Source associated with the selected term. |
 | Workflow Type Term Source REF                  | String     | Identifies the controlled vocabulary or ontology that this term comes from. The Source REF has to match one of the Term Source Name declared in the [Ontology Source Reference section](./ISA-XLSX.md#ontology-source-reference-section). |
-| Workflow URI                                   | String     | Pointer to workflow resources external to the ISA-Tab that can be accessed by their Uniform Resource Identifier (URI). |
+| Workflow URI                                   | String     | Pointer to workflow resources external to the WR-XLSX document that can be accessed by their Uniform Resource Identifier (URI). |
 | Workflow Version                               | String     | An identifier for the version to ensure workflow tracking. |
 | Workflow Parameters Name                       | String     | A semicolon-delimited (“;”) list of parameter names, used as an identifier within the WR-XLSX document. These names identify the [Parameter columns](./ISA-XLSX.md#parameters) in [Run Annotation Tables](#annotation-table-sheets) that list the values used for each Workflow parameter. Refer to section [Multiple values](#multiple-values) on how to encode multiple values in one field and match term sources. |
 | Workflow Parameters Term Accession Number      | String     | The accession number from the Term Source associated with the selected term. |
@@ -89,7 +94,7 @@ This section MUST contain the following labels, with the specified datatypes for
 
 **Example**
 
-For example, the `WORKFLOW` section of an ISA-XLSX `isa.workflow.xlsx` file may look as follows:
+For example, the `WORKFLOW` section of a WR-XLSX `isa.workflow.xlsx` file may look as follows:
 
 |      |      |
 |------|------|
@@ -134,7 +139,7 @@ This section MUST contain the following labels, with the specified datatypes for
 
 **Example**
 
-For example, the `WORKFLOW CONTACTS` section of an ISA-XLSX `isa.workflow.xlsx` file may look as follows:
+For example, the `WORKFLOW CONTACTS` section of a WR-XLSX `isa.workflow.xlsx` file may look as follows:
 
 |                |         |       |
 |----------------|---------|-------|
@@ -154,7 +159,7 @@ For example, the `WORKFLOW CONTACTS` section of an ISA-XLSX `isa.workflow.xlsx` 
 
 ## RUN section
 
-The following subsections implement the metadata for a `Run`.
+The following subsections form a metadata block implementing the metadata for a `Run`.
 
 ### RUN
 
@@ -180,7 +185,7 @@ This section MUST contain the following labels, with the specified datatypes for
 
 **Example**
 
-For example, the `RUN` section of an ISA-XLSX `isa.run.xlsx` file may look as follows:
+For example, the `RUN` section of a WR-XLSX `isa.run.xlsx` file may look as follows:
 
 |      |      |
 |------|------|
@@ -221,7 +226,7 @@ This section MUST contain the following labels, with the specified datatypes for
 
 **Example**
 
-For example, the `RUN PERFORMERS` section of an ISA-XLSX `isa.run.xlsx` file may look as follows:
+For example, the `RUN PERFORMERS` section of a WR-XLSX `isa.run.xlsx` file may look as follows:
 
 |                |         |       |
 |----------------|---------|-------|
@@ -246,10 +251,6 @@ Where a top-level metadata field permits multiple annotation values, their encod
 
 Run annotation tables MUST follow the [Annotation Table sheets](./ISA-XLSX.md#annotation-table-sheets) rules in ISA-XLSX. These include table structure, [inputs and outputs](./ISA-XLSX.md#inputs-and-outputs), [protocol columns](./ISA-XLSX.md#protocol-columns), [ontology annotations](./ISA-XLSX.md#ontology-annotations), [units](./ISA-XLSX.md#unit), [parameters](./ISA-XLSX.md#parameters), [comments](./ISA-XLSX.md#comments), and [additional payload](./ISA-XLSX.md#others).
 
-## Examples
-
-todo
-
 # Datamap Table sheets
 
-Data entities used or produced by workflows and runs MAY be described in a [Datamap File](./ISA-XLSX.md#datamap-file). These files and their [Datamap Table sheets](./ISA-XLSX.md#datamap-table-sheets) MUST follow the ISA-XLSX rules.
+Workflow and run datamaps described in the workspace's [Workflow Description](./ISA-ARC-Workspace.md#workflow-description) and [Run Description](./ISA-ARC-Workspace.md#run-description) use the [Datamap File](./ISA-XLSX.md#datamap-file) and [Datamap Table sheets](./ISA-XLSX.md#datamap-table-sheets) rules from ISA-XLSX.
