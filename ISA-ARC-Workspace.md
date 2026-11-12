@@ -1,8 +1,12 @@
-# Annotated Research Context Specification, version 3.0.0-draft.2
+# ISA-ARC Workspace specification, version 3.0.0-draft.2
+
+**Status:** Draft.
+
+**Persistent identifier:** <https://w3id.org/arc/workspace/isa-arc>
 
 Please provide feedback via GitHub issues or a pull request.
 
-**GitHub repository:**  <https://github.com/nfdi4plants/ARC-specification>
+**GitHub repository:**  <https://github.com/nfdi4plants/ISA-ARC-Workspace>
 
 Copyright 2022–2025 [DataPLANT](https://nfdi4plants.de).
 
@@ -17,6 +21,7 @@ Licensed under the Creative Commons License CC BY, Version 4.0; you may not use 
   - [Example ARC structure](#example-arc-structure)
   - [ARC Representation](#arc-representation)
   - [ISA-XLSX Format](#isa-xlsx-format)
+  - [WR-XLSX Format](#wr-xlsx-format)
   - [Study and Resources](#study-and-resources)
   - [Assay Data and Metadata](#assay-data-and-metadata)
   - [Workflow Description](#workflow-description)
@@ -145,9 +150,15 @@ Notes:
 
 ## ISA-XLSX Format
 
-The ISA-XLSX specification is currently part of the ARC specification. Its version therefore follows the version of the ARC specification.
+ISA-ARC Workspace, ISA-XLSX, and WR-XLSX are separate specification documents that can be referenced individually. This workspace specification, version 3.0.0-draft.2, references ISA-XLSX version 3.0.0-draft.1 for experimental metadata and shared XLSX conventions.
 
-[ISA-XLSX format specification](ISA-XLSX.md)
+[ISA-XLSX format specification, version 3.0.0-draft.1](ISA-XLSX.md)
+
+## WR-XLSX Format
+
+This workspace specification references WR-XLSX version 1.0.0-draft.1 for workflow and run metadata. WR-XLSX extends ISA-XLSX version 3.0.0-draft.1 and reuses its shared conventions and sheet rules.
+
+[WR-XLSX format specification, version 1.0.0-draft.1](WR-XLSX.md)
 
 ## Study and Resources
 
@@ -195,7 +206,7 @@ Workflow execution and metadata MUST be described using the [Common Workflow Lan
 
 The file locations can be seen in the [Example ARC structure](#example-arc-structure).
 
-Prospective top level metadata about the workflow SHOULD be stored in [ISA-XLSX](#isa-xlsx-format) in a `isa.workflow.xlsx` file, which SHOULD exist for each workflow. Further details on `isa.workflow.xlsx` are specified [in the isa-xlsx specification](ISA-XLSX.md#workflow-file).
+Prospective top level metadata about the workflow SHOULD be stored in [WR-XLSX](#wr-xlsx-format) in a `isa.workflow.xlsx` file, which SHOULD exist for each workflow. Further details on `isa.workflow.xlsx` are specified [in the WR-XLSX specification](WR-XLSX.md#workflow-file).
 
 Further explications about data and metadata entities defined in the workflow MAY be stored in [ISA-XLSX](#isa-xlsx-format) format in a `isa.datamap.xlsx` file, which MAY exist for each workflow. Further details on `isa.datamap.xlsx` are specified [in the isa-xlsx specification](ISA-XLSX.md#datamap-file).
 
@@ -211,13 +222,13 @@ Notes:
 
 ## Run Description
 
-**Runs** in an ARC represent all artifacts that result from some computation on the data within the ARC, i.e. [assays](#assay-data-and-metadata) and [external data](#external-data). These results (e.g. plots, tables, data files, etc. ) MUST reside inside one or more subdirectory of the top-level `runs` directory.
+**Runs** in an ARC represent all artifacts that result from some computation on the data within the ARC, i.e. [assays](#assay-data-and-metadata) and [external data](#study-and-resources). These results (e.g. plots, tables, data files, etc. ) MUST reside inside one or more subdirectory of the top-level `runs` directory.
 
 Each such subdirectory MUST contain a workflow description `run.cwl`, given in [Common Workflow Language](https://www.commonwl.org/) (CWL), [v1.2](https://www.commonwl.org/v1.2/) or higher, that describes how the files contained with the run are derived from assay or external data, or other runs. `run.cwl` MUST be placed in the subdirectory under the top-level `runs` directory. A parameter file `run.yml` MAY be given to specify run-specific input parameters.
 
-`run.cwl` MAY (and sensibly, should) refer to assay data files, external data files, workflow descriptions, and files in other run results; such references MUST use relative paths, which can be given in the corresponding `run.yml`. The paths MUST be relative to the location of the `run.yml` file. Furthermore, `run.cwl` MUST specify as outputs all result files. `run.cwl` MUST BE executable without referring to [additional payload files](#additional-auxiliary-payload) or files outside the ARC.
+`run.cwl` MAY (and sensibly, should) refer to assay data files, external data files, workflow descriptions, and files in other run results; such references MUST use relative paths, which can be given in the corresponding `run.yml`. The paths MUST be relative to the location of the `run.yml` file. Furthermore, `run.cwl` MUST specify as outputs all result files. `run.cwl` MUST BE executable without referring to [additional payload files](#additional-payload) or files outside the ARC.
 
-Retrospective top level metadata about the run and metadata about the provenance of the generated data of this run SHOULD be stored in [ISA-XLSX](#isa-xlsx-format) in a `isa.run.xlsx` file, which SHOULD exist for each run. Further details on `isa.run.xlsx` are specified [in the isa-xlsx specification](ISA-XLSX.md#run-file).
+Retrospective top level metadata about the run and metadata about the provenance of the generated data of this run SHOULD be stored in [WR-XLSX](#wr-xlsx-format) in a `isa.run.xlsx` file, which SHOULD exist for each run. Further details on `isa.run.xlsx` are specified [in the WR-XLSX specification](WR-XLSX.md#run-file).
 
 Further explications about data entities created by execution of the run MAY be stored in [ISA-XLSX](#isa-xlsx-format) format in a `isa.datamap.xlsx` file, which MAY exist for each run. Further details on `isa.datamap.xlsx` are specified [in the isa-xlsx specification](ISA-XLSX.md#datamap-file).
 
@@ -225,7 +236,7 @@ Notes:
 
 - Run descriptions are intended to ensure that the computational analysis encapsulated within an ARC can be fully reproduced.
 
-- Any files produced by executing the run description which are not specified as CWL outputs in `run.cwl` are considered additional ARC payload. Furthermore, all files of all subdirectories under `run` that are not referenced from the [top-level workflow](#top-level-workflow) are considered additional payload.
+- Any files produced by executing the run description which are not specified as CWL outputs in `run.cwl` are considered additional ARC payload. Furthermore, all files of all subdirectories under `run` that are not referenced from the top-level workflow are considered additional payload.
 
 - It is expected that run descriptions are authored semi-automatically, e.g. using the [Swate](https://nfdi4plants.github.io/nfdi4plants.knowledgebase/swate/) tool for annotation of the `isa.datamap.xlsx` and the `isa.run.xlsx` file.
 
@@ -244,7 +255,7 @@ Note:
 
 The `investigation` file MUST follow the [ISA-XLSX investigation file specification](ISA-XLSX.md#investigation-file).
 
-Furthermore, run-level reproducibility information SHOULD be provided in the CWL `run.cwl` ([Individual Run Description](#individual-run-description)).
+Furthermore, run-level reproducibility information SHOULD be provided in the CWL `run.cwl` ([Run Description](#run-description)).
 
 ### Investigation and Study Metadata
 
