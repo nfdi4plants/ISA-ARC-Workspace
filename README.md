@@ -24,6 +24,8 @@ These editions are drafts; separate identifiers do not imply independent conform
 
 ## Contributing to this repository
 
+See [contributing.md](contributing.md) for the Jekyll preview, development container and versioned specification layout. The documentation entry point is [docs/index.md](docs/index.md).
+
 The default branch `release` of this repo is kept in sync with the latest release tag and the zenodo record. 
 
 Therefore, all contributions to this repo must target the `dev` branch, which is representing the work in progress for the next versioned release.
