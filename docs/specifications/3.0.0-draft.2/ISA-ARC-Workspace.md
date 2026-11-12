@@ -4,6 +4,17 @@
 
 **Persistent identifier:** <https://w3id.org/arc/workspace/isa-arc>
 
+**Authors:**
+
+- Heinrich Lukas Weil - <https://orcid.org/0000-0003-1945-6342>
+- Kevin Schneider - <https://orcid.org/0000-0002-2198-5262>
+- Dominik Brilhaus - <https://orcid.org/0000-0001-9021-3197>
+- Florian Wetzels - <https://orcid.org/0000-0002-5526-7138>
+- Caroline Ott - <https://orcid.org/0000-0003-1512-9504>
+- Kevin Frey - <https://orcid.org/0000-0002-8510-6810>
+- Christoph Garth - <https://orcid.org/0000-0003-1669-8549>
+- Timo Mühlhaus - <https://orcid.org/0000-0003-3925-6778>
+
 Please provide feedback via GitHub issues or a pull request.
 
 **GitHub repository:**  <https://github.com/nfdi4plants/ISA-ARC-Workspace>

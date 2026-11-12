@@ -4,6 +4,17 @@
 
 **Persistent identifier:** <https://w3id.org/arc/workspace/isa-arc/wr-xlsx>
 
+**Authors:**
+
+- Heinrich Lukas Weil - <https://orcid.org/0000-0003-1945-6342>
+- Kevin Schneider - <https://orcid.org/0000-0002-2198-5262>
+- Dominik Brilhaus - <https://orcid.org/0000-0001-9021-3197>
+- Florian Wetzels - <https://orcid.org/0000-0002-5526-7138>
+- Caroline Ott - <https://orcid.org/0000-0003-1512-9504>
+- Kevin Frey - <https://orcid.org/0000-0002-8510-6810>
+- Christoph Garth - <https://orcid.org/0000-0003-1669-8549>
+- Timo Mühlhaus - <https://orcid.org/0000-0003-3925-6778>
+
 This specification extends [ISA-XLSX, version 3.0.0-draft.1](./ISA-XLSX.md) with metadata for computational workflows and runs. The XLSX representation and ISA terminology are defined by that base specification.
 
 The existing folder layout and data-path conventions are defined by the [ISA-ARC Workspace specification, version 3.0.0-draft.2](./ISA-ARC-Workspace.md). Separating these specifications does not change those workspace requirements.
