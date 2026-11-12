@@ -703,7 +703,7 @@ Cell values of the `Input` and `Output` column represent nodes of the `Process` 
 
 - A `Data` object MUST be indicated with the node type `Data`.
 
-`Source Names`, `Sample Names`, `Material Names` MUST be unique across an ARC. If two of these entities with the same name exist in the same ARC, they are considered the same entity.
+`Source Names`, `Sample Names`, `Material Names` MUST be unique across an ISA-ARC workspace. If two of these entities with the same name exist in the same ISA-ARC workspace, they are considered the same entity.
 
 The `Data` node type MUST correspond to a relevant data resource location, following the [Data Path Annotation](./ISA-ARC-Workspace.md#data-path-annotation) patterns. If the annotation of the `Data` node refers not to the complete resource, but a part of it, a `Selector` MAY be added. This Selector MUST be separated from the resource location using a `#`— with no whitespace between: `location#selector`. If appropriate, the Selector SHOULD be formatted according to IRI fragment selectors specified by [W3](https://www.w3.org/TR/annotation-model/#fragment-selector).
 

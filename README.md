@@ -1,10 +1,10 @@
 # ISA-ARC Workspace
 
-Specification for ARC Workspaces with ISA and CWL flavours.
+Specification of ISA-ARC, DataPLANT's domain-specific application of the Annotated Research Context (ARC) for workspaces supporting ARC research data management (ARC RDM).
 
 ## Overview
 
-The ISA-ARC Workspace facilitates iterative RDM by providing a folder structure and metadata file specifications for managing experimental and computational provenance.
+ISA-ARC workspaces facilitate iterative ARC RDM by providing a folder structure and metadata file specifications for managing experimental and computational provenance.
 
 Experimental metadata is organized in [ISA-XLSX](ISA-XLSX.md) format, an implementation of the ISA abstract model.
 
