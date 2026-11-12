@@ -1,0 +1,50 @@
+{
+  "name": "ISA-ARC Workspace (Jekyll / GitHub Pages)",
+
+  // Official Microsoft devcontainer image with Ruby, Jekyll and build tools preinstalled.
+  "image": "mcr.microsoft.com/devcontainers/jekyll:2-bullseye",
+
+  // The image's preinstalled gems are root-owned. Install project gems in the
+  // vscode user's home, with the same path for setup, terminals and preview.
+  "remoteEnv": {
+    "BUNDLE_PATH": "/home/vscode/.local/share/bundle"
+  },
+
+  // Adds the .NET SDK on top of the Jekyll image. The SDK bundles F#, so
+  // F# Interactive is available for specification tooling.
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "lts"
+    },
+    // Node is required by the Claude Code feature (it only declares installsAfter,
+    // it does not install Node itself), so add it explicitly.
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+
+  // The Jekyll site lives in docs/ (also used by the GitHub Pages Actions workflow).
+  // Install the pinned github-pages gems once, after the container is created.
+  "postCreateCommand": "cd docs && bundle install",
+
+  // Serve the site on attach; rebuilds + live-reloads as you edit the Markdown.
+  // Serve locally at / so the forwarded port preview opens the home page.
+  // --force_polling makes file-change detection work over Docker Desktop bind mounts.
+  "postAttachCommand": "cd docs && bundle exec jekyll serve --host 0.0.0.0 --baseurl '' --livereload --force_polling",
+
+  "forwardPorts": [4000, 35729],
+  "portsAttributes": {
+    "4000": { "label": "Jekyll site", "onAutoForward": "openPreview" },
+    "35729": { "label": "LiveReload", "onAutoForward": "silent" }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "yzhang.markdown-all-in-one",
+        "ionide.ionide-fsharp",
+        "anthropic.claude-code",
+        "openai.chatgpt"
+      ]
+    }
+  }
+}

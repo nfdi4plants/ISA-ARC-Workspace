@@ -1,15 +1,30 @@
-# Annotated Research Contexts specification
+# ISA-ARC Workspace
 
-[![DOI](https://zenodo.org/badge/380251011.svg)](https://zenodo.org/badge/latestdoi/380251011)
+Specification of ISA-ARC, DataPLANT's domain-specific application of the Annotated Research Context (ARC) for workspaces supporting ARC research data management (ARC RDM).
 
-Annotated Research Contexts (ARCs) are designed to represent FAIR Digital Objects (FDOs) for plant sciences to facilitate encompassing Research Data Management (RDM) tasks.
+## Overview
 
-The [ARC-specification](ARC%20specification.md) provides a detailed description of the technical requirements to form the basis for the operational characteristics.
+ISA-ARC workspaces facilitate iterative ARC RDM by providing a folder structure and metadata file specifications for managing experimental and computational provenance.
 
-Please provide feedback via GitHub issues. For small extensions or fixes please use pull requests.
-If you have novel conceptual ideas, please discuss them with the community under [discussion](https://github.com/nfdi4plants/ARC-specfication/discussions).
+Experimental metadata is organized in [ISA-XLSX](ISA-XLSX.md) format, an implementation of the ISA abstract model.
+
+Computational metadata is organized in a combination of workflows and runs defined by CWL (Common Workflow Language) and associated metadata files in [WR-XLSX](WR-XLSX.md), an extension of ISA-XLSX for capturing computational provenance.
+
+The specifications are separate documents that can be referenced individually:
+
+- [ISA-ARC Workspace specification, version 3.0.0-draft.2](ISA-ARC-Workspace.md): workspace structure and content.
+- [ISA-XLSX specification, version 3.0.0-draft.1](ISA-XLSX.md): experimental metadata and shared XLSX conventions.
+- [WR-XLSX specification, version 1.0.0-draft.1](WR-XLSX.md): workflow and run metadata extending ISA-XLSX.
+
+The workspace version listed above references these ISA-XLSX and WR-XLSX versions. WR-XLSX 1.0.0-draft.1 extends ISA-XLSX 3.0.0-draft.1.
+
+These editions are drafts; separate identifiers do not imply independent conformance or remove dependencies between the specifications.
+
+[workspace-definition.yml](workspace-definition.yml) is an empty placeholder for a planned machine-readable workspace definition; it is not an active specification.
 
 ## Contributing to this repository
+
+See [contributing.md](contributing.md) for the Jekyll preview, development container and versioned specification layout. The documentation entry point is [docs/index.md](docs/index.md).
 
 The default branch `release` of this repo is kept in sync with the latest release tag and the zenodo record. 
 

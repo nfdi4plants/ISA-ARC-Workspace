@@ -1,0 +1,16 @@
+title: ISA-ARC Workspace
+description: >-
+  DataPLANT's domain-specific ARC workspace specification, with ISA-XLSX and WR-XLSX metadata formats.
+
+# Matches the ARC RO-Crate profile collection's GitHub Pages theme.
+theme: jekyll-theme-slate
+
+repository: nfdi4plants/ISA-ARC-Workspace
+url: "https://nfdi4plants.github.io"
+baseurl: "/ISA-ARC-Workspace"
+
+# Tooling files that should not be copied into the built site.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
